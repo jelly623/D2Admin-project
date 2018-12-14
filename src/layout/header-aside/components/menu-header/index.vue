@@ -8,8 +8,72 @@
             <d2-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
           </template>
 
-          <p style="fontsize: 5px; color: white; margin: 50px 10px 50px 10px">未签入</p>
-          
+            <!-- <div class="status">
+              <el-row>
+                <el-col :span="6"><img src="./icon-red.png">未签入</el-col>
+                <el-col :span="6"><div class="status-text"></div></el-col>      
+                <div class="status-icon">
+                  <el-button-group>
+                  <el-button class="status-button-top" icon="el-icon-service"></el-button>
+                  <el-button class="status-button-top" icon="el-icon-phone"></el-button>
+                  <el-button class="status-button-top" icon="el-icon-phone-outline" ></el-button>
+                  <el-button class="status-button-top" icon="el-icon-check" ></el-button>
+                  <el-button class="status-button-top" icon="el-icon-time"></el-button>
+                  <el-button class="status-button-top" icon="el-icon-edit"></el-button>
+                  </el-button-group>
+                  <br>
+                  <p style="font-size:8px; margin:8px 5px 0 0px; padding:0">签入  接听 签入  接听</p>
+                  
+                </div>
+              </el-row>
+            </div> -->
+
+            <div class="status">
+              <el-row>
+                <el-col :span="2" class="status-left"><img src="./icon-red.png">未签入</el-col>
+                <el-col :span="30">
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-service" ></el-button>
+                    <p class="status-right-text">签入</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-phone" ></el-button>
+                    <p class="status-right-text">接听</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-phone-outline" ></el-button>
+                    <p class="status-right-text">静音</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-check" ></el-button>
+                    <p class="status-right-text">工作</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-time" ></el-button>
+                    <p class="status-right-text">示闲</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-edit" ></el-button>
+                    <p class="status-right-text">学习</p>
+                  </div>
+                  <div class="status-icon">
+                    <el-button class="status-button-top" icon="el-icon-service" ></el-button>
+                    <p class="status-right-text">咨询</p>
+                  </div>
+                  <!-- <div class="status-icon">
+                    <el-button class="status-button-top"><img src="./status-success.png"></el-button>
+                    <p class="status-right-text">咨询</p>
+                  </div> -->
+
+                  
+                </el-col>
+                      
+                
+              </el-row>
+            </div>
+
+
+
         </el-menu>
       </div>
     </div>
@@ -125,5 +189,36 @@ export default {
 </script>
 
 <style>
+
+.status {
+  margin: 30px 10px 30px 50px;
+  color: white;
+}
+
+.status-left {
+  margin-left: 5px;
+  margin-right: 250px;
+}
+
+.status-icon {
+  float:left;
+  margin-right: 5px;
+}
+
+.status-right-text {
+  font-size:5px;
+  margin: 1px 5px 0 5px; 
+}
+
+.status-button-top {
+  font-size: 25px;
+  padding: 3px;
+  margin:0px; 
+  box-shadow:0 2px 2px rgba(0, 0, 0, 0.35);
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  
+}
 
 </style>
