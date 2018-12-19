@@ -7,6 +7,12 @@ import App from './App'
 import store from '@/store/index'
 // 模拟数据
 import '@/mock'
+import axios from 'axios'
+Vue.prototype.$axios = axios
+import MockAdapter from 'axios-mock-adapter'
+
+//引入mock.js文件
+// require('./mockjs')
 // 多国语
 import i18n from './i18n'
 // 核心插件
