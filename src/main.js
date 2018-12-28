@@ -3,16 +3,17 @@ import 'babel-polyfill'
 // Vue
 import Vue from 'vue'
 import App from './App'
+/*引入资源请求插件*/
+import VueResource from 'vue-resource'
+
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import D2Crud from '@d2-projects/d2-crud'
 // store
 import store from '@/store/index'
 // 模拟数据
 import '@/mock'
-import axios from 'axios'
-Vue.prototype.$axios = axios
-import MockAdapter from 'axios-mock-adapter'
 
-//引入mock.js文件
-// require('./mockjs')
 // 多国语
 import i18n from './i18n'
 // 核心插件
@@ -26,6 +27,9 @@ import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(d2Admin)
+Vue.use(VueResource)
+Vue.use(ElementUI)
+Vue.use(D2Crud)
 
 new Vue({
   router,

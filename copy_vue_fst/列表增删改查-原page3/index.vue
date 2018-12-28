@@ -1,12 +1,5 @@
 <template>
 <d2-container>
-  <div>
-    <h1>This is home page.</h1>
-    <router-link id="firstpart" to="/index/firstpart">First part</router-link>
-    <router-link id="secondpart" to="/index/secondpart">Second part</router-link>
-    <hr>
-    <router-view></router-view>
-  </div>  
      <!-- 工具条 -->
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
