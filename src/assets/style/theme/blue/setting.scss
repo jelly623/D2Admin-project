@@ -6,7 +6,7 @@ $theme-bg-color: #f8f8f9;
 $theme-bg-mask: rgba(#000, 0);
 
 // container组件
-$theme-container-background-color: rgba(#FFF, .8);
+$theme-container-background-color: #ffffff;
 $theme-container-header-footer-background-color: #FFF;
 $theme-container-border-inner: 1px solid $color-border-2;
 $theme-container-border-outer: 1px solid #cfd7e5;
@@ -42,7 +42,7 @@ $theme-aside-item-color: $color-text-normal;
 $theme-aside-item-background-color: #eeeeee;
 // 侧边栏上的项目在 hover 时
 $theme-aside-item-color-hover: $color-text-main;
-$theme-aside-item-background-color-hover: rgba(#000, .02);
+$theme-aside-item-background-color-hover: #e6e5e4;
 // 侧边栏上的项目在 focus 时
 $theme-aside-item-color-focus: $color-text-main;
 $theme-aside-item-background-color-focus: rgba(#000, .02);

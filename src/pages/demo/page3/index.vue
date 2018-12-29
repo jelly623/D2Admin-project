@@ -6,7 +6,7 @@
     <router-link id="secondpart" to="/index/secondpart">Second part</router-link>
     <hr>
     <router-view></router-view>
-  </div>  
+  </div>
      <!-- 工具条 -->
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>

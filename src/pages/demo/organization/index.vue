@@ -4,7 +4,7 @@
 <el-container>
     <!--树形控件-->
   <el-aside class="asideContainer" width="300px"  style="padding: 15px;">
-      <el-tree
+      <el-tree class="tree"
           ref="eventCategoryTree"
           :data="eventCategoryTree"
           :props="defaultProps"
@@ -37,39 +37,64 @@
   </el-dialog>
 
   <!-- 表单 -->
-  <el-main> 
-  <div>
-  <el-form ref="form" :model="form" label-width="80px">
-    <el-form-item label="机构编号">
-      <el-input v-model="form.id"></el-input>
-    </el-form-item>  
-    <el-form-item label="机构名称">
-      <el-input v-model="form.name"></el-input>
-    </el-form-item>
-    <el-form-item label="机构类型">
-      <el-select v-model="form.type" placeholder="请选择机构类型">
-        <el-option label="公司" value="company"></el-option>
-        <el-option label="部门" value="department"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="客服中心">
-      <el-select v-model="form.callcenter" placeholder="请选择类型">
-        <el-option label="是" value="yes"></el-option>
-        <el-option label="否" value="no"></el-option>
-      </el-select>
-    </el-form-item>  
-    <el-form-item label="出局号">
-      <el-input v-model="form.code"></el-input>
-    </el-form-item>
-    <el-form-item label="机构描述">
-      <el-input type="textarea" v-model="form.desc"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">立即创建</el-button>
-      <el-button>取消</el-button>
-    </el-form-item>
-  </el-form>
-  </div>
+  <el-main class="form"> 
+    <div>
+      <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="medium" :inline="true">        
+        <el-row :gutter="20">
+          <el-col :span="11">
+            <el-form-item 
+              label="机构编号"
+              :rules="[
+                      { required: true, message: '机构编号不能为空'},
+                      { type: 'number', message: '机构编号必须为数字值'}
+                    ]" >
+              <el-input v-model="mainForm.id"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">  
+            <el-form-item 
+              label="机构名称"
+              :rules="[
+                        { required: true, message: '机构名称不能为空'}
+                      ]">
+              <el-input v-model="mainForm.name"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" >
+          <el-col :span="11">
+            <el-form-item label="机构类型" >
+              <el-select v-model="mainForm.type" placeholder="请选择机构类型">
+                <el-option label="公司" value="company"></el-option>
+                <el-option label="部门" value="department"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col> 
+            <el-col :span="11">
+              <el-form-item label="客服中心">
+                <el-select v-model="mainForm.callcenter" placeholder="请选择类型">
+                  <el-option label="是" value="yes"></el-option>
+                  <el-option label="否" value="no"></el-option>
+                </el-select>
+              </el-form-item>  
+            </el-col>
+        </el-row>
+        <el-form-item label="出局号">
+          <el-input v-model="mainForm.code"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col >
+            <el-form-item label="机构描述">
+              <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">保存</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </el-main>
 </el-container>
 </div>
@@ -82,9 +107,12 @@ import TreeRender from './tree_render.vue';
   export default {
     data() {
         return {
-            form: {
+            mainForm: {
+              id: '',
               name: '',
-              region: '',
+              type:  '',
+              callcenter:'',
+              code: '',
               desc: ''
             },      
             //树组件的数据
@@ -232,6 +260,12 @@ import TreeRender from './tree_render.vue';
         });
         },
 
+        changeMainRegion(s,d,n) {
+          this.addEventdialogVisible = true;
+          mainForm.id = eventCategoryTree.id;
+          mainForm.name = eventCategoryTree.name;
+        },
+
         /*节点新增，新增树形菜单事件分类弹窗，提交按钮*/
         addEventFormSubmitBtn(formname){
         this.$refs[formname].validate((valid) => {
@@ -285,6 +319,14 @@ import TreeRender from './tree_render.vue';
             }
         });
         },
+    addEventFormCancleBtn(done) {
+      this.addEventdialogVisible=false,
+      this.$message({
+        message: '取消新增节点',
+        type: 'warning'
+      })
+      done()
+    },
     }
   };
 </script>
@@ -293,7 +335,16 @@ import TreeRender from './tree_render.vue';
   .asideContainer {
     float: left;
     height: 480px;
-    background-color:white;
+    background-color:#f1f5fa;
+    border: 1px solid #a1c7e9;
+    margin-right: 5px;
   }
-
+.tree {
+  background-color:#f1f5fa;
+  
+}
+.form {
+  border: 1px solid #a1c7e9;
+  height: 480px;
+}
 </style>
