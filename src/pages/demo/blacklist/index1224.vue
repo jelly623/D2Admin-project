@@ -20,9 +20,13 @@
         </el-form-item>        
         <el-form-item>
           <el-button type="primary" class="toolbar-button" style="display: inline-block;">查询</el-button>
+        </el-form-item>  
+
+      <!-- <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
+        <el-form-item label="客户名称">
+          <el-input v-model="filters.name" style="display: inline-block;"></el-input>
         </el-form-item>   
-                            
-        <!-- <el-form-item label="电话号码">
+        <el-form-item label="电话号码">
           <el-input v-model="filters.telephone" ></el-input>
         </el-form-item>
         <el-form-item label="提交时间">
@@ -37,7 +41,7 @@
         <el-form-item>
         <el-button type="primary" class="toolbar-button" >重置</el-button>
         </el-form-item> -->
-      </el-form>
+      </el-form> 
     </div>
  </template>
  <template  class="tableContainer"> 

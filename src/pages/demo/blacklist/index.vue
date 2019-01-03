@@ -5,7 +5,7 @@
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
       <hr/>
-      <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">
+      <!-- <el-form :inline="true" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">
         <el-form-item label="客户名称">
           <el-input v-model="search" style="display: inline-block;"></el-input>
         </el-form-item>        
@@ -20,9 +20,13 @@
         </el-form-item>        
         <el-form-item>
           <el-button type="primary" class="toolbar-button" style="display: inline-block;">查询</el-button>
-        </el-form-item>   
+        </el-form-item>    -->
                             
-        <!-- <el-form-item label="电话号码">
+       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
+        <el-form-item label="客户名称">
+          <el-input v-model="filters.name" style="display: inline-block;"></el-input>
+        </el-form-item>   
+        <el-form-item label="电话号码">
           <el-input v-model="filters.telephone" ></el-input>
         </el-form-item>
         <el-form-item label="提交时间">
@@ -36,7 +40,7 @@
         </el-form-item>
         <el-form-item>
         <el-button type="primary" class="toolbar-button" >重置</el-button>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
     </div>
  </template>
@@ -48,8 +52,6 @@
       :columns="columns"
       :data="tablesData"
       :pagination="pagination"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
       :options="options"      
       add-mode
       :rowHandle="rowHandle"
@@ -75,12 +77,13 @@
 export default {
   data () {
     return {
-      // filters: {
-      //   telephone: '',
-      //   time: '',
-      //   person: ''
-      // },
-      search: '',//搜索内容框
+      filters: {
+        name: '',
+        telephone: '',
+        time: '',
+        person: ''
+      },
+      // search: '',//搜索内容框
       sels: [], //列表选中列
       columns: [
         {
@@ -295,8 +298,8 @@ export default {
     computed: {
       // 模糊搜索
       tablesData () {
-        const search = this.search
-        if (search) {
+        const filter = this.filter
+        if (filter) {
           // filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
           // 注意： filter() 不会对空数组进行检测。
           // 注意： filter() 不会改变原始数组。
@@ -391,7 +394,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 .tableContainer {
   position: relative;
 }
@@ -425,5 +428,8 @@ export default {
 .d2-crud {
   margin-top:-20px;
 }
+  .el-table th {
+    background-color: #eff1f7;
+  }
 
 </style>
