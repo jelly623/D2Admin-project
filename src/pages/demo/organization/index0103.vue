@@ -2,7 +2,7 @@
 <d2-container>
 <div>
 <el-container>
-    <!--树形控件-->
+  <!--树形控件-->
   <el-aside class="asideContainer" width="300px"  style="padding: 15px;">
       <el-tree class="tree"
           ref="eventCategoryTree"
@@ -15,6 +15,7 @@
           :expand-on-click-node="false">
       </el-tree>
   </el-aside>
+  
   <!--新增事件节点分类弹窗-->
   <el-dialog
     title="新增事件分类"
@@ -39,7 +40,7 @@
   <!-- 表单 -->
   <el-main class="form"> 
     <div>
-      <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="medium" >
+      <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="small" >
         <el-row :gutter="20">
           <el-col :span="11">
             <el-form-item 
@@ -87,12 +88,16 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="18">
+          <el-col :span="11">
             <el-form-item label="机构描述">
               <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+            <el-button @click="resetForm('ruleForm')">取消</el-button>
+        </el-form-item>        
       </el-form>
     </div>
   </el-main>
@@ -397,5 +402,7 @@ import TreeRender from './tree_render.vue';
 }
 .form {
   border: 1px solid #a1c7e9;
+  height: 480px;
+  background-color: white;
 }
 </style>

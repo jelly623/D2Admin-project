@@ -1,116 +1,139 @@
 <template>
-<d2-container>
 <div>
-<el-container>
-  <!--树形控件-->
-  <el-aside class="asideContainer" width="300px"  style="padding: 15px;">
-      <el-tree class="tree"
-          ref="eventCategoryTree"
-          :data="eventCategoryTree"
-          :props="defaultProps"
-          node-key="id"
-          highlight-current
-          default-expand-all
-          :render-content="renderContent"
-          :expand-on-click-node="false">
-      </el-tree>
-  </el-aside>
-  <!--新增事件节点分类弹窗-->
-  <el-dialog
-    title="新增事件分类"
-    width="25%"
-    class="add-event-dialog"
-    :visible.sync="addEventdialogVisible"
-    size="tiny">
-    <el-form ref="addEventForm" :model="addEventForm">
-      <el-form-item label="分类名称" prop="categoryName" >
-        <el-input v-model="addEventForm.categoryName"></el-input>
-      </el-form-item>
-      <el-form-item label="分类标识" prop="categoryFlag">
-        <el-input v-model="addEventForm.categoryFlag"></el-input>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer" >
-      <el-button @click="addEventFormCancleBtn('addEventForm')">取 消</el-button>
-      <el-button type="primary" @click="addEventFormSubmitBtn('addEventForm')">确 定</el-button>
-    </span>
-  </el-dialog>
+    <d2-container>
+        <el-container>
+            <el-header class="header">
+            <button @click="collapseStatus">               
+                <i class="fa fa-reorder" aria-hidden="true"></i>
+            </button>                
+            <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                <el-radio-button :label="false">展开</el-radio-button>
+                <el-radio-button :label="true">收起</el-radio-button>
+            </el-radio-group> -->
+            </el-header>
+        <el-container>
+            <el-aside
+                width="auto"
+                @mouseenter.native="collapseOpen"
+                @mouseleave.native="collapseClose">
+            </el-aside>
+            <div class="left">
+                <el-menu class="el-menu-vertical" @open="handleOpen" @close="handleClose" :collapse="isCollapse" style="float:left;">
+                    <!-- <el-submenu index="1">
+                        <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">导航一</span>
+                        </template> 
+                      </el-submenu>                -->
+                <!--树形控件-->
+                <!-- <el-aside class="asideContainer" width="300px"  style="padding: 15px;"> -->
+                <el-tree class="tree"
+                    ref="eventCategoryTree"
+                    :data="eventCategoryTree"
+                    :props="defaultProps"
+                    node-key="id"
+                    highlight-current
+                    default-expand-all
+                    :render-content="renderContent"
+                    :expand-on-click-node="false">
+                </el-tree>
+                </el-menu>            
+            </div>
+        <div class="right">
+            <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="small" >
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item 
+                    label="机构编号"
+                    :rules="[
+                            { required: true, message: '机构编号不能为空'},
+                            { type: 'number', message: '机构编号必须为数字值'}
+                            ]" >
+                            <el-input v-model="mainForm.id"></el-input>
+                        </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                    <el-form-item 
+                    label="机构名称"
+                    :rules="[
+                                { required: true, message: '机构名称不能为空'}
+                            ]">
+                    <el-input v-model="mainForm.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="机构类型" >              
+                    <el-select v-model="mainForm.type" placeholder="请选择机构类型">
+                        <el-option label="公司" value="company"></el-option>
+                        <el-option label="部门" value="department"></el-option>
+                    </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                    <el-form-item label="客服中心">
+                        <el-select v-model="mainForm.callcenter" placeholder="请选择类型">
+                        <el-option label="是" value="yes"></el-option>
+                        <el-option label="否" value="no"></el-option>
+                        </el-select>
+                    </el-form-item> 
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="出局号">
+                    <el-input v-model="mainForm.code"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="机构描述">
+                    <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                    <el-button @click="resetForm('ruleForm')">取消</el-button>
+                </el-form-item>        
+            </el-form>            
+        </div>
+          <!--新增事件节点分类弹窗-->
+        <el-dialog
+            title="新增事件分类"
+            width="25%"
+            class="add-event-dialog"
+            :visible.sync="addEventdialogVisible"
+            size="tiny">
+            <el-form ref="addEventForm" :model="addEventForm">
+            <el-form-item label="分类名称" prop="categoryName" >
+                <el-input v-model="addEventForm.categoryName"></el-input>
+            </el-form-item>
+            <el-form-item label="分类标识" prop="categoryFlag">
+                <el-input v-model="addEventForm.categoryFlag"></el-input>
+            </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer" >
+            <el-button @click="addEventFormCancleBtn('addEventForm')">取 消</el-button>
+            <el-button type="primary" @click="addEventFormSubmitBtn('addEventForm')">确 定</el-button>
+            </span>
+        </el-dialog>
 
-  <!-- 表单 -->
-  <el-main class="form"> 
-    <div>
-      <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="small" >
-        <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item 
-              label="机构编号"
-              :rules="[
-                      { required: true, message: '机构编号不能为空'},
-                      { type: 'number', message: '机构编号必须为数字值'}
-                    ]" >
-                    <el-input v-model="mainForm.id"></el-input>
-                  </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item 
-              label="机构名称"
-              :rules="[
-                        { required: true, message: '机构名称不能为空'}
-                      ]">
-              <el-input v-model="mainForm.name"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="机构类型" >              
-              <el-select v-model="mainForm.type" placeholder="请选择机构类型">
-                <el-option label="公司" value="company"></el-option>
-                <el-option label="部门" value="department"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="11">
-            <el-form-item label="客服中心">
-                <el-select v-model="mainForm.callcenter" placeholder="请选择类型">
-                  <el-option label="是" value="yes"></el-option>
-                  <el-option label="否" value="no"></el-option>
-                </el-select>
-            </el-form-item> 
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="出局号">
-              <el-input v-model="mainForm.code"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="20">
-          <el-col :span="11">
-            <el-form-item label="机构描述">
-              <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-            <el-button @click="resetForm('ruleForm')">取消</el-button>
-        </el-form-item>        
-      </el-form>
-    </div>
-  </el-main>
-</el-container>
+        </el-container>
+        </el-container>
+    </d2-container>
 </div>
-</d2-container>
 </template>
-
 <script>
 import TreeRender from './tree_render.vue';
 
   export default {
     data() {
         return {
+            collapseBtnClick: false,
+            isCollapse: false,
             mainForm: {
               id: '',
               name: '',
@@ -382,25 +405,51 @@ import TreeRender from './tree_render.vue';
           d.callcenter = this.mainForm.callcenter;
           d.code = this.mainForm.code;       
           d.desc = this.mainForm.desc;
-        },             
-    }
+        }, 
+               collapseStatus() {
+                        this.collapseBtnClick = this.isCollapse;
+                        this.isCollapse = !this.isCollapse;
+                    },
+                collapseOpen() {
+                        if (this.collapseBtnClick) return;
+                        this.isCollapse = true;
+                    }
+                 },
+                collapseClose() {
+                        if (this.collapseBtnClick) return;
+                        this.isCollapse = true;
+                }                    
+    
   };
 </script>
+<style>
+  .left {
+     float: left;
 
-<style scoped>
-  .asideContainer {
-    float: left;
-    height: 480px;
-    background-color:#f1f5fa;
-    border: 1px solid #a1c7e9;
-    margin-right: 5px;
   }
-.tree {
-  background-color:#f1f5fa;
-  
-}
-.form {
-  border: 1px solid #a1c7e9;
-  height: 480px;
+  .right {
+     float: left;
+     padding-top: 20px;
+     padding-left: 10px;
+     margin-left: 10px;
+     border: 1px solid #a1c7e9;
+     width: 90%;
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 300px;    
+    /* min-height: 400px; */
+  } 
+ 
+  .tree {
+      padding-left:30px;
+      height:450px;
+      border: 1px solid #a1c7e9;
+      background-color:#f1f5fa;
+  }
+.header {
+    /* background-color: red; */
+    padding-top: 10px;
+    padding-left: 25px;
+    margin:-25px;
 }
 </style>
