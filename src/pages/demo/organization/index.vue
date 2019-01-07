@@ -145,106 +145,117 @@ import TreeRender from './tree_render.vue';
             //树组件的数据
             eventCategoryTree: [
             {
-                id: 1,
-                icon:'el-icon-success',
-                label: '航天信息股份有限公司',
-                type:'公司',
-                callcenter:'否',
-                code:'37,38,39,40',
-                desc:'航天信息股份有限公司',
-                addAble: true,  //根据后台给的是否可添加节点，也可以根据当前的node节点自行判断
+                id: 0,
+                label: ' ',
+                type:' ',                
+                callcenter:' ',
+                code:' ',
+                desc:' ',
+                addAble: false,  //根据后台给的是否可添加节点，也可以根据当前的node节点自行判断
                 delAble: false,  //根据后台给的是否可删除节点，也可以根据当前的node节点自行判断
                 parentId: '',             
-                children: [{
-                  id: 4,
-                  label: '总部',
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                  children: [{
-                    id: 10,
-                    label: '总部呼叫中心',
-                    type:'部门',
-                    callcenter:'是',
+                children: [{                
+                    id: 1,
+                    icon:'el-icon-success',
+                    label: '航天信息股份有限公司',
+                    type:'公司',
+                    callcenter:'否',
                     code:'37,38,39,40',
-                    desc:'总部呼叫中心',                    
+                    desc:'航天信息股份有限公司',
+                    addAble: true,  //根据后台给的是否可添加节点，也可以根据当前的node节点自行判断
+                    delAble: false,  //根据后台给的是否可删除节点，也可以根据当前的node节点自行判断
+                    parentId: '0',             
+                    children: [{
+                    id: 4,
+                    label: '总部',
                     addAble: true,
                     delAble: true,
-                    parentId: '4',
-                    },
-                    {
-                    id: 11,
-                    label: '总部财务软件',
+                    parentId: '1',
+                    children: [{
+                        id: 10,
+                        label: '总部呼叫中心',
+                        type:'部门',
+                        callcenter:'是',
+                        code:'37,38,39,40',
+                        desc:'总部呼叫中心',                    
+                        addAble: true,
+                        delAble: true,
+                        parentId: '4',
+                        },
+                        {
+                        id: 11,
+                        label: '总部财务软件',
+                        type:'部门',
+                        callcenter:'否',
+                        code:'37,38,39,40',
+                        desc:'总部财务软件',                   
+                        addAble: true,
+                        delAble: true,
+                        parentId: '4',
+                        },
+                        {
+                        id: 12,
+                        label: '总部防伪税控',
+                        type:'部门',
+                        callcenter:'否',
+                        code:'37,38,39,40',
+                        desc:'总部防伪税控', 
+                        addAble: true,
+                        delAble: true,
+                        parentId: '4',
+                        },]
+                    },{
+                    id: 5,
+                    label: '金税产业本部',
                     type:'部门',
                     callcenter:'否',
                     code:'37,38,39,40',
-                    desc:'总部财务软件',                   
+                    desc:'金税产业本部',                   
                     addAble: true,
                     delAble: true,
-                    parentId: '4',
-                    },
-                    {
-                    id: 12,
-                    label: '总部防伪税控',
+                    parentId: '1',
+                    }, {
+                    id: 6,
+                    label: '北爱',
                     type:'部门',
                     callcenter:'否',
                     code:'37,38,39,40',
-                    desc:'总部防伪税控', 
+                    desc:'北爱',                   
                     addAble: true,
                     delAble: true,
-                    parentId: '4',
+                    parentId: '1',
+                    },{
+                    id: 7,
+                    label: '技术研究院',
+                    type:'部门',
+                    callcenter:'否',
+                    code:'37,38,39,40',
+                    desc:'技术研究院',                   
+                    addAble: true,
+                    delAble: true,
+                    parentId: '1',
+                    },{
+                    id: 8,
+                    label: '大象慧云',
+                    type:'部门',
+                    callcenter:'否',
+                    code:'37,38,39,40',
+                    desc:'大象慧云',                  
+                    addAble: true,
+                    delAble: true,
+                    parentId: '1',
+                    },{
+                    id: 9,
+                    label: '金税',
+                    type:'部门',
+                    callcenter:'否',
+                    code:'37,38,39,40',
+                    desc:'金税',                   
+                    addAble: true,
+                    delAble: true,
+                    parentId: '1',
                     },]
-                  },{
-                  id: 5,
-                  label: '金税产业本部',
-                  type:'部门',
-                  callcenter:'否',
-                  code:'37,38,39,40',
-                  desc:'金税产业本部',                   
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                  }, {
-                  id: 6,
-                  label: '北爱',
-                  type:'部门',
-                  callcenter:'否',
-                  code:'37,38,39,40',
-                  desc:'北爱',                   
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                },{
-                  id: 7,
-                  label: '技术研究院',
-                  type:'部门',
-                  callcenter:'否',
-                  code:'37,38,39,40',
-                  desc:'技术研究院',                   
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                },{
-                  id: 8,
-                  label: '大象慧云',
-                  type:'部门',
-                  callcenter:'否',
-                  code:'37,38,39,40',
-                  desc:'大象慧云',                  
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                },{
-                  id: 9,
-                  label: '金税',
-                  type:'部门',
-                  callcenter:'否',
-                  code:'37,38,39,40',
-                  desc:'金税',                   
-                  addAble: true,
-                  delAble: true,
-                  parentId: '1',
-                },]
+                }],
             }],
             defaultProps: {
                 children: 'children',
@@ -436,7 +447,7 @@ import TreeRender from './tree_render.vue';
      width: 90%;
   }
   .el-menu-vertical:not(.el-menu--collapse) {
-    width: 300px;    
+    width: 300px;   
     /* min-height: 400px; */
   } 
  
@@ -444,7 +455,7 @@ import TreeRender from './tree_render.vue';
       padding-left:30px;
       height:450px;
       border: 1px solid #a1c7e9;
-      background-color:#f1f5fa;
+      background-color:white;
   }
 .header {
     /* background-color: red; */

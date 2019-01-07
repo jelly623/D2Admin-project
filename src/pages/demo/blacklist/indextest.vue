@@ -2,6 +2,12 @@
 <d2-container>
   <template slot="header">
     <!-- 工具条 -->
+         <ul>
+         <li v-for="Info in tablesInfo" :key="Info"> 
+            <h2>{{Info.name}}</h2>  
+            <h3>{{Info.telephone}}</h3>
+         </li>
+         </ul>      
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
       <hr/>
@@ -38,11 +44,11 @@
         <el-form-item>
           <el-button type="primary" class="toolbar-button" >查询</el-button>
         </el-form-item>
-        <!-- <el-form-item>
+        <el-form-item>
         <el-button type="primary" class="toolbar-button" >重置</el-button>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
-    </div>
+    </div>   
  </template>
  <template  class="tableContainer"> 
    <!-- <el-button class="delButton" type="danger" size="mini" plain @click="handleDelete(sels.map(i => i.name))" :disabled="this.sels.length===0">批量删除</el-button> -->
@@ -75,6 +81,7 @@
 
 <script>
 import  { FindBlackList } from '@/api/demo/blackListInfo'
+
 export default {
   data () {
     return {
@@ -118,68 +125,75 @@ export default {
           sortable: true
         }              
       ],
-      tablesInfo: [
-          {
-          id: 1,
-          name: '王小虎',
-          telephone: '111',
-          description: 'wangxiaohu@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true                     
-          },
-          {
-          id: 2,
-          name: '吴伟',
-          telephone: '222',
-          description: 'wuwei@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          },
-          {
-          id: 3,
-          name: '王艳',
-          telephone: '333',
-          description: 'wangyan@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆',  
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true     
-          },
-          {
-          id: 4,  
-          name: '雷梦',
-          telephone: '444',
-          description: 'leimeng@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          },
-          {
-          id: 5,  
-          name: '雷梦',
-          telephone: '444',
-          description: 'leimeng@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          }          
-      ],
+      tablesInfo: '',
+      created() {
+            FindBlackList().then((data)=>{
+              this.tablesInfo=data; 
+              consoled.log(data);
+            });
+      },      
+      // [
+      //     {
+      //     id: 1,
+      //     name: '王小虎',
+      //     telephone: '111',
+      //     description: 'wangxiaohu@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true                     
+      //     },
+      //     {
+      //     id: 2,
+      //     name: '吴伟',
+      //     telephone: '222',
+      //     description: 'wuwei@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 3,
+      //     name: '王艳',
+      //     telephone: '333',
+      //     description: 'wangyan@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆',  
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true     
+      //     },
+      //     {
+      //     id: 4,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 5,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     }          
+      // ],
       pagination: {
         pageSize: 4,
         layout: 'total, prev, pager, next, jumper',
