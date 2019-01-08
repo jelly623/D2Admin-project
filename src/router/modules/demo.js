@@ -15,6 +15,8 @@ export default {
     { path: 'blacklist', name: `${pre}blacklist`, component: () => import('@/pages/demo/blacklist'), meta: { meta, title: '黑名单管理' } },
     { path: 'organization', name: `${pre}organization`, component: () => import('@/pages/demo/organization'), meta: { meta, title: '机构管理' } },
     { path: 'test', name: `${pre}organization`, component: () => import('@/pages/demo/test'), meta: { meta, title: '测试' } },
-    { path: 'page3', name: `${pre}firstpart`, component: () => import('@/pages/demo/page3/firstpart'), meta: { meta, title: 'firstpart' } },
+    { path: 'page4', name: `${pre}page4`, component: () => import('@/pages/demo/page4'), meta: { meta, title: '页面 4' } },
+    { path: 'page5', name: `${pre}page5`, component: () => import('@/pages/demo/page5'), meta: { meta, title: '页面 5' } },
+
   ])('demo-')
 }

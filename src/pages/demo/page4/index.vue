@@ -1,12 +1,49 @@
 <template>
-  <d2-container>
-    <template slot="header">Page 1 header</template>
-         <ul>
-         <li v-for="user in users" :key="user"> 
-            <h2>{{user.name}}</h2>  
-         </li>
-         </ul>   
-
+<d2-container>
+  <template slot="header">
+    <!-- 工具条 -->     
+    <div class="toolbar">
+      <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
+      <hr/>
+      <!-- <el-form :inline="true" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">
+        <el-form-item label="客户名称">
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>        
+        <el-form-item label="电话号码">
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>
+        <el-form-item label="提交时间">
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>
+        <el-form-item label="提交人">
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>        
+        <el-form-item>
+          <el-button type="primary" class="toolbar-button" style="display: inline-block;">查询</el-button>
+        </el-form-item>    -->
+                            
+       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
+        <el-form-item label="客户名称">
+          <el-input v-model="filters.name" style="display: inline-block;"></el-input>
+        </el-form-item>   
+        <el-form-item label="电话号码">
+          <el-input v-model="filters.telephone" ></el-input>
+        </el-form-item>
+        <el-form-item label="提交时间">
+          <el-input v-model="filters.time"></el-input>
+        </el-form-item>
+        <el-form-item label="提交人">
+        <el-input v-model="filters.person"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" class="toolbar-button" >查询</el-button>
+        </el-form-item>
+        <!-- <el-form-item>
+        <el-button type="primary" class="toolbar-button" >重置</el-button>
+        </el-form-item> -->
+      </el-form>
+    </div>   
+ </template>
  <template  class="tableContainer"> 
    <!-- <el-button class="delButton" type="danger" size="mini" plain @click="handleDelete(sels.map(i => i.name))" :disabled="this.sels.length===0">批量删除</el-button> -->
     <!-- 表格 -->
@@ -32,16 +69,23 @@
      </d2-crud>
     
   </template>
- 
-    <template slot="footer">footer</template>
+  
   </d2-container>
-</template>
+  </template>
+
 <script>
-import  { FindBlackList } from '@/api/demo/blackListInfo'
+import  { ShowTablesInfoData } from '@/api/demo//page4/blackListInfo'
+
 export default {
-  data(){
+  data () {
     return {
-      users:'',
+      filters: {
+        name: '',
+        telephone: '',
+        time: '',
+        person: ''
+      },
+      // search: '',//搜索内容框
       sels: [], //列表选中列
       columns: [
         {
@@ -64,25 +108,82 @@ export default {
         },
         {
           title: '提交时间',
-          key: 'Submission_time',
+          key: 'time',
           width: '150',
           sortable: true
         },
         {
           title: '提交人',
-          key: 'Submission_person',
+          key: 'person',
           width: '150',
           sortable: true
         }              
-      ],      
-    }
-  },
-  created() {
-         FindBlackList().then((data)=>{
-            this.users=data; 
-            consoled.log(data);
-        });
-  },
+      ],
+      
+
+      tablesInfo: [],      
+      // [
+      //     {
+      //     id: 1,
+      //     name: '王小虎',
+      //     telephone: '111',
+      //     description: 'wangxiaohu@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true                     
+      //     },
+      //     {
+      //     id: 2,
+      //     name: '吴伟',
+      //     telephone: '222',
+      //     description: 'wuwei@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 3,
+      //     name: '王艳',
+      //     telephone: '333',
+      //     description: 'wangyan@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆',  
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true     
+      //     },
+      //     {
+      //     id: 4,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 5,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     }          
+      // ],
       pagination: {
         pageSize: 4,
         layout: 'total, prev, pager, next, jumper',
@@ -196,8 +297,14 @@ export default {
         name: [ { required: true, message: '请输入名称', trigger: 'blur' } ],
         telephone: [ { required: true, message: '请输入电话', trigger: 'blur' } ],
         description: [ { required: true, message: '请输入具体描述', trigger: 'blur' } ]
-          
-    
+      }      
+    }
+  },
+    created() {
+        ShowTablesInfoData().then((data)=>{
+          this.tablesInfo=data; 
+          consoled.log(data);
+        });
   },
     computed: {
       // 模糊搜索

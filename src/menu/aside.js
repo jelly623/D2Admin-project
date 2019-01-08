@@ -7,10 +7,13 @@ export default [
     children: [
       { path: '/demo/page1', title: '页面 1' },
       { path: '/demo/page2', title: '页面 2' },
-      { path: '/demo/page3', title: '页面 3' },
+      { path: '/demo/page3', title: '页面 3' },      
+      { path: '/demo/page4', title: '页面 4' },
+      { path: '/demo/page5', title: '页面 5' },
       { path: '/demo/blacklist', title: '黑名单管理' },
       { path: '/demo/organization', title: '机构管理' },
       { path: '/demo/test', title: '测试' },
+
     ]
   }
 ]
