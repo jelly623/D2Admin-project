@@ -1,8 +1,8 @@
 import request from '@/plugin/axios'
 
-export function ShowTablesInfoData (data) {
+export function organizationListInfoData (data) {
    return request({
-    url: '/demo/page4',
+    url: '/demo/organization',
     // url: 'http://localhost:3000/users',
     method: 'get',
     data

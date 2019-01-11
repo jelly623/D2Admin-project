@@ -5,21 +5,38 @@
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
       <hr/>
-       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
+      <!-- <el-form :inline="true" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">
         <el-form-item label="客户名称">
-          <el-input v-model="formData.name" style="display: inline-block;"></el-input>   
-        </el-form-item>   
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>        
         <el-form-item label="电话号码">
-          <el-input v-model="formData.telephone" ></el-input>
+          <el-input v-model="search" style="display: inline-block;"></el-input>
         </el-form-item>
         <el-form-item label="提交时间">
-          <el-input v-model="formData.time"></el-input>
+          <el-input v-model="search" style="display: inline-block;"></el-input>
         </el-form-item>
         <el-form-item label="提交人">
-        <el-input v-model="formData.person"></el-input>
+          <el-input v-model="search" style="display: inline-block;"></el-input>
+        </el-form-item>        
+        <el-form-item>
+          <el-button type="primary" class="toolbar-button" style="display: inline-block;">查询</el-button>
+        </el-form-item>    -->
+                            
+       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
+        <el-form-item label="客户名称">
+          <el-input v-model="filters.name" style="display: inline-block;"></el-input>
+        </el-form-item>   
+        <el-form-item label="电话号码">
+          <el-input v-model="filters.telephone" ></el-input>
+        </el-form-item>
+        <el-form-item label="提交时间">
+          <el-input v-model="filters.time"></el-input>
+        </el-form-item>
+        <el-form-item label="提交人">
+        <el-input v-model="filters.person"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="toolbar-button" @click="search(formData)">查询</el-button>
+          <el-button type="primary" class="toolbar-button" >查询</el-button>
         </el-form-item>
         <!-- <el-form-item>
         <el-button type="primary" class="toolbar-button" >重置</el-button>
@@ -30,10 +47,10 @@
  <template  class="tableContainer"> 
    <!-- <el-button class="delButton" type="danger" size="mini" plain @click="handleDelete(sels.map(i => i.name))" :disabled="this.sels.length===0">批量删除</el-button> -->
     <!-- 表格 -->
-    <d2-crud
+     <d2-crud
       ref="d2Crud"
       :columns="columns"
-      :data="realList"
+      :data="tablesData"
       :pagination="pagination"
       :options="options"      
       add-mode
@@ -49,8 +66,10 @@
       selection-row
       @selection-change="selsChange">
       <el-button slot="headerButton" type="danger" size="small" plain @click="handleDelete(sels.map(i => i.id))">批量删除</el-button>
-     </d2-crud>   
-  </template> 
+     </d2-crud>
+    
+  </template>
+  
   </d2-container>
   </template>
 
@@ -58,16 +77,15 @@
 import  { ShowTablesInfoData } from '@/api/demo/page4/blackListInfo'
 
 export default {
-  name: 'styleTest',
-  data() {
+  data () {
     return {
-      formData: {
+      filters: {
         name: '',
         telephone: '',
         time: '',
         person: ''
       },
-      realList: [],
+      // search: '',//搜索内容框
       sels: [], //列表选中列
       columns: [
         {
@@ -101,7 +119,71 @@ export default {
           sortable: true
         }              
       ],
-      tablesInfo: [],     
+      
+
+      tablesInfo: [],      
+      // [
+      //     {
+      //     id: 1,
+      //     name: '王小虎',
+      //     telephone: '111',
+      //     description: 'wangxiaohu@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true                     
+      //     },
+      //     {
+      //     id: 2,
+      //     name: '吴伟',
+      //     telephone: '222',
+      //     description: 'wuwei@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 3,
+      //     name: '王艳',
+      //     telephone: '333',
+      //     description: 'wangyan@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆',  
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true     
+      //     },
+      //     {
+      //     id: 4,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     },
+      //     {
+      //     id: 5,  
+      //     name: '雷梦',
+      //     telephone: '444',
+      //     description: 'leimeng@aisino.com',
+      //     time: '2018-12-21',
+      //     person: '陈伟霆', 
+      //     forbidEdit: false,
+      //     showEditButton: true,
+      //     forbidRemove: false,
+      //     showRemoveButton: true      
+      //     }          
+      // ],
       pagination: {
         pageSize: 4,
         layout: 'total, prev, pager, next, jumper',
@@ -216,80 +298,40 @@ export default {
         telephone: [ { required: true, message: '请输入电话', trigger: 'blur' } ],
         description: [ { required: true, message: '请输入具体描述', trigger: 'blur' } ]
       }      
-    };
+    }
   },
-  filters: {
-    filterSex(val) {
-      switch (val) {
-        case 1:
-          return '男';
-          break;
-        case 2:
-          return '女';
-          break;
-        case 3:
-          return '不是人';
-          break;
-        default:
-          return '男';
+    created() {
+        ShowTablesInfoData().then((data)=>{
+          this.tablesInfo=data; 
+          console.log(data);
+        });
+  },
+    computed: {
+      // 模糊搜索
+      tablesData () {
+        const filter = this.filter
+        if (filter) {
+          // filter() 方法创建一个新的数组，新数组中的元素是通过检查指定数组中符合条件的所有元素。
+          // 注意： filter() 不会对空数组进行检测。
+          // 注意： filter() 不会改变原始数组。
+          return this.tablesInfo.filter(dataNews => {
+            // some() 方法用于检测数组中的元素是否满足指定条件;
+            // some() 方法会依次执行数组的每个元素：
+            // 如果有一个元素满足条件，则表达式返回true , 剩余的元素不会再执行检测;
+            // 如果没有满足条件的元素，则返回false。
+            // 注意： some() 不会对空数组进行检测。
+            // 注意： some() 不会改变原始数组。
+            return Object.keys(dataNews).some(key => {
+              // indexOf() 返回某个指定的字符在某个字符串中首次出现的位置，如果没有找到就返回-1；
+              // 该方法对大小写敏感！所以之前需要toLowerCase()方法将所有查询到内容变为小写。
+              return String(dataNews[key]).toLowerCase().indexOf(search) > -1
+            })
+          })
+        }
+        return this.tablesInfo
       }
     },
-  },
-  computed: {
-    // realList() {
-    //   let { name, phone, sex } = this.formData;
-    //   if (name && phone && sex) {
-    //     return this.list;
-    //   }
-    // },
-  },
-  created() {
-      ShowTablesInfoData().then((data)=>{
-        this.tablesInfo=data; 
-        console.log(data);
-        this.search({});
-      });
-  },  
   methods: {
-    // 查询
-    search({ name, telephone, time, person }) {
-      this.realList = this.tablesInfo.filter(item => {
-        let matchName = true; // 姓名 筛选
-        let matchTelephone = true; // 性别 筛选
-        let matchTime = true; // 号码 筛选
-        let matchPerson = true;
-
-        if (telephone) {
-          matchTelephone = item.telephone == telephone;
-        }
-
-        if (time) {
-          // console.info(Object.prototype.toString.call(phone));
-          matchTime = item.time == time;
-        }
-
-        if (person) {
-          // 模糊搜索;
-          const keys = person
-            .toUpperCase() // 转大写
-            .replace(' ', '') // 删掉空格
-            .split(''); // 切割成 单个字
-
-          matchName = keys.every(key => item.person.toUpperCase().includes(key));
-        }
-        if (name) {
-          // 模糊搜索;
-          const keys = name
-            .toUpperCase() // 转大写
-            .replace(' ', '') // 删掉空格
-            .split(''); // 切割成 单个字
-
-          matchPerson = keys.every(key => item.name.toUpperCase().includes(key));
-        }        
-        return matchName && matchTelephone && matchTime && matchPerson;
-      });
-      console.log(this.realList)
-    },
     // 新增
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
@@ -354,15 +396,15 @@ export default {
       },  
       handleDelete(idArray) {
         this.tablesInfo = this.tablesInfo.filter(i => !idArray.includes(i.id));
-      },     
-  },
-    mounted () {
+      },      
+},
+  mounted () {
     console.log(this.$refs.d2Crud.d2Data)
   } 
-};
-
+}
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .tableContainer {
   position: relative;

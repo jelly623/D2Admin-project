@@ -3,41 +3,30 @@
   <template slot="header">
     <!-- 工具条 -->     
     <div class="toolbar">
-      <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
+      <el-col :span="24" class="toolbar-title">定时任务调度列表</el-col>
       <hr/>
-       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
-        <el-form-item label="客户名称">
-          <el-input v-model="formData.name" style="display: inline-block;"></el-input>   
+       <el-form :inline="true" label-width="80px" size="mini" style="margin:0 10px 0 -5px">                        
+        <el-form-item label="任务描述">
+          <el-input v-model="formData.desc" style="display: inline-block;"></el-input>   
         </el-form-item>   
-        <el-form-item label="电话号码">
-          <el-input v-model="formData.telephone" ></el-input>
-        </el-form-item>
-        <el-form-item label="提交时间">
-          <el-input v-model="formData.time"></el-input>
-        </el-form-item>
-        <el-form-item label="提交人">
-        <el-input v-model="formData.person"></el-input>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" class="toolbar-button" @click="search(formData)">查询</el-button>
         </el-form-item>
-        <!-- <el-form-item>
-        <el-button type="primary" class="toolbar-button" >重置</el-button>
-        </el-form-item> -->
       </el-form>
     </div>   
  </template>
  <template  class="tableContainer"> 
-   <!-- <el-button class="delButton" type="danger" size="mini" plain @click="handleDelete(sels.map(i => i.name))" :disabled="this.sels.length===0">批量删除</el-button> -->
     <!-- 表格 -->
     <d2-crud
       ref="d2Crud"
       :columns="columns"
       :data="realList"
+      @d2-data-change="handleDataChange"
       :pagination="pagination"
       :options="options"      
       add-mode
       :rowHandle="rowHandle"
+      @custom-emit-1="handleCustomEvent"
       :add-button="addButton"
       :form-template="formTemplate"
       :form-options="formOptions"
@@ -55,137 +44,174 @@
   </template>
 
 <script>
-import  { ShowTablesInfoData } from '@/api/demo/page4/blackListInfo'
+// import  { ShowTablesInfoData } from '@/api/demo/page4/blackListInfo'
+import MyTag from './MyTag.vue'
 
 export default {
-  name: 'styleTest',
+  components: {
+    MyTag
+  },
   data() {
     return {
       formData: {
-        name: '',
-        telephone: '',
-        time: '',
-        person: ''
+        // name: '',
+        // telephone: '',
+        // time: '',
+        // person: ''
+        desc: ''
       },
       realList: [],
       sels: [], //列表选中列
       columns: [
         {
-          title: '客户名称',
-          key: 'name',
-          width: '150',
+          title: 'ID',
+          key: 'id',
+          width: '60',
           sortable: true,
         },
         {
-          title: '电话号码',
-          key: 'telephone',
+          title: '任务描述',
+          key: 'desc',
           width: '150',
           sortable: true
         },
         {
-          title: '具体描述',
-          key: 'description',
-          width: '250',
-          sortable: true
-        },
-        {
-          title: '提交时间',
-          key: 'time',
+          title: '任务类名称',
+          key: 'name',
           width: '150',
           sortable: true
         },
         {
-          title: '提交人',
-          key: 'person',
+          title: '定时调度表达式',
+          key: 'expression',
           width: '150',
           sortable: true
-        }              
-      ],     
-      list: [
-          {
-          id: 1,
-          name: '王小虎',
-          telephone: '111',
-          description: 'wangxiaohu@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true                     
-          },
-          {
-          id: 2,
-          name: '吴伟',
-          telephone: '222',
-          description: 'wuwei@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          },
-          {
-          id: 3,
-          name: '王艳',
-          telephone: '333',
-          description: 'wangyan@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆',  
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true     
-          },
-          {
-          id: 4,  
-          name: '雷梦',
-          telephone: '444',
-          description: 'leimeng@aisino.com',
-          time: '2018-12-21',
-          person: '陈伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          },
-          {
-          id: 5,  
-          name: '雷梦',
-          telephone: '444',
-          description: 'leimeng@aisino.com',
-          time: '2018-12-21',
-          person: '刘伟霆', 
-          forbidEdit: false,
-          showEditButton: true,
-          forbidRemove: false,
-          showRemoveButton: true      
-          }          
+        },
+        {
+          title: '备注',
+          key: 'remark',
+          width: '150',
+          sortable: true
+        },
+        {
+          title: '任务状态',
+          key: 'status',
+          width: '150',
+          sortable: true
+        },
+        {
+          title: '参数',
+          key: 'para',
+          width: '100',
+          sortable: true
+        },        
+        {
+          title: '启停',
+          key: 'check',
+          width: '60',
+          component: {
+            name: MyTag,
+            props: {
+              myProps: ''
+            }
+          }
+        },                              
       ],
+      tablesInfo: [
+        {
+          id: 1,
+          desc: '测试任务1',
+          name: '111',
+          expression: '0 15 10 * * ? *	',
+          remark: '备注1',
+          status: '状态1',
+          para: 'para1', 
+          check: true,
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                               
+        },
+        {
+          id: 2,
+          desc: '测试任务2',
+          name: '222',
+          expression: '0 15 10 * * ? 2018',
+          remark: '备注2',
+          status: '状态2',
+          para: 'para2', 
+          check: false,
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                               
+        },
+        {
+          id: 3,
+          desc: '测试任务3',
+          name: '333',
+          expression: '0 15 10 * * ? *	',
+          remark: '备注1',
+          status: '状态1',
+          para: 'para1', 
+          check: true,
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                               
+        },
+        {
+          id: 4,
+          desc: '测试任务4',
+          name: '444',
+          expression: '0 15 10 * * ? *	',
+          remark: '备注1',
+          status: '状态1',
+          para: 'para1', 
+          check: false,
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                               
+        }, 
+        {
+          id: 5,
+          desc: '测试任务5',
+          name: '555',
+          expression: '0 15 10 * * ? *	',
+          remark: '备注1',
+          status: '状态1',
+          para: 'para1', 
+          check: true,
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                               
+        },                                 
+      ],     
       pagination: {
         pageSize: 4,
         layout: 'total, prev, pager, next, jumper',
       },
       rowHandle: {
-        remove: {
-          icon: 'el-icon-delete',
-          size: 'mini',
-          fixed: 'right',
-          confirm: true,
-          show (index, row) {
-            if (row.showRemoveButton) {
-              return true
-            }
-            return false
-          },
-          disabled (index, row) {
-            if (row.forbidRemove) {
-              return true
-            }
-            return false
-          }
-        },   
+        // remove: {
+        //   icon: 'el-icon-delete',
+        //   size: 'mini',
+        //   fixed: 'right',
+        //   confirm: true,
+        //   show (index, row) {
+        //     if (row.showRemoveButton) {
+        //       return true
+        //     }
+        //     return false
+        //   },
+        //   disabled (index, row) {
+        //     if (row.forbidRemove) {
+        //       return true
+        //     }
+        //     return false
+        //   }
+        // },   
         columnHeader: '修改',
         edit: {
           icon: 'el-icon-edit',
@@ -203,7 +229,15 @@ export default {
             }
             return false
           }
-        }
+        },       
+        // custom: [
+        //   {
+        //     text: '',
+        //     type: 'primary',
+        //     size: 'small',
+        //     emit: 'custom-emit-1',
+        //   }
+        // ]        
       },
        options: {
         stripe: true,
@@ -217,38 +251,38 @@ export default {
       },
       formTemplate: {
           name: {
-          title: '客户名称',
+          title: '任务类名称',
           value: '',
           component: {
-            span: 12
+            span: 22
           }          
         },
-          telephone: {
-          title: '电话号码',
+          desc: {
+          title: '任务描述',
           value: '',
           component: {
-            span: 12
+            span: 22
           }           
         },
-        time: {
-          title: '提交时间',
+        expression: {
+          title: 'cron表达式',
           value: '',
           component: {
-            span: 12
+            span: 22
           }          
         },      
-        person: {
-          title: '提交人',
+        para: {
+          title: '参数（以;分隔）',
           value: '',
           component: {
-            span: 12
+            span: 22
           }          
         },
-        description: {
-          title: '具体描述',
+        remark: {
+          title: '备注信息',
           value: '',
           component: {
-
+            span: 22
           }          
         },
         forbidEdit: {
@@ -267,34 +301,20 @@ export default {
         }
       },
       formOptions: {
-        labelWidth: '80px',
+        labelWidth: '150px',
         labelPosition: 'left',
         saveLoading: false,
-        gutter: 20
+        gutter: 30
       },
       formRules: {
-        name: [ { required: true, message: '请输入名称', trigger: 'blur' } ],
-        telephone: [ { required: true, message: '请输入电话', trigger: 'blur' } ],
-        description: [ { required: true, message: '请输入具体描述', trigger: 'blur' } ]
+        name: [ { required: true, message: '请输入任务类名称', trigger: 'blur' } ],
+        // telephone: [ { required: true, message: '请输入电话', trigger: 'blur' } ],
+        // description: [ { required: true, message: '请输入具体描述', trigger: 'blur' } ]
       }      
     };
   },
   filters: {
-    filterSex(val) {
-      switch (val) {
-        case 1:
-          return '男';
-          break;
-        case 2:
-          return '女';
-          break;
-        case 3:
-          return '不是人';
-          break;
-        default:
-          return '男';
-      }
-    },
+
   },
   computed: {
     // realList() {
@@ -305,49 +325,28 @@ export default {
     // },
   },
   created() {
-      ShowTablesInfoData().then((data)=>{
-        this.tablesInfo=data; 
-        console.log(data);
         this.search({});
-      });
   },  
   methods: {
     // 查询
-    search({ name, telephone, time, person }) {
-      this.realList = this.list.filter(item => {
-        let matchName = true; // 姓名 筛选
-        let matchTelephone = true; // 性别 筛选
-        let matchTime = true; // 号码 筛选
-        let matchPerson = true;
+    search({ desc }) {
+      this.realList = this.tablesInfo.filter(item => {
+        // let matchName = true; // 姓名 筛选
+        // let matchTelephone = true; // 性别 筛选
+        // let matchTime = true; // 号码 筛选
+        // let matchPerson = true;
+        let matchDesc = true;
 
-        if (telephone) {
-          matchTelephone = item.telephone == telephone;
-        }
-
-        if (time) {
-          // console.info(Object.prototype.toString.call(phone));
-          matchTime = item.time == time;
-        }
-
-        if (person) {
+        if (desc) {
           // 模糊搜索;
-          const keys = person
+          const keys = desc
             .toUpperCase() // 转大写
             .replace(' ', '') // 删掉空格
             .split(''); // 切割成 单个字
 
-          matchName = keys.every(key => item.person.toUpperCase().includes(key));
-        }
-        if (name) {
-          // 模糊搜索;
-          const keys = name
-            .toUpperCase() // 转大写
-            .replace(' ', '') // 删掉空格
-            .split(''); // 切割成 单个字
-
-          matchPerson = keys.every(key => item.name.toUpperCase().includes(key));
+          matchDesc = keys.every(key => item.desc.toUpperCase().includes(key));
         }        
-        return matchName && matchTelephone && matchTime && matchPerson;
+        return matchDesc;
       });
       console.log(this.realList)
     },
@@ -398,24 +397,38 @@ export default {
     //   console.log(selection)
     // },
     //删除
-    handleRowRemove ({index, row}, done) {
-      setTimeout(() => {
-        console.log(index)
-        console.log(row)
-        this.$message({
-          message: '删除成功',
-          type: 'success'
-        })
-        done()
-      }, 300)
-    },
+    // handleRowRemove ({index, row}, done) {
+    //   setTimeout(() => {
+    //     console.log(index)
+    //     console.log(row)
+    //     this.$message({
+    //       message: '删除成功',
+    //       type: 'success'
+    //     })
+    //     done()
+    //   }, 300)
+    // },
     // 批量删除
       selsChange(sels) {
         this.sels = sels
       },  
       handleDelete(idArray) {
-        this.tablesInfo = this.tablesInfo.filter(i => !idArray.includes(i.id));
-      },     
+        // this.tablesInfo = this.tablesInfo.filter(i => !idArray.includes(i.id));
+        this.realList = this.realList.filter(i => !idArray.includes(i.id));
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+      },
+      // 启停
+      // handleCustomEvent ({index, row}) {
+        
+      //   console.log(index)
+      //   console.log(row)
+      // },
+    handleDataChange (data) {
+      console.log(data)
+    }                 
   },
     mounted () {
     console.log(this.$refs.d2Crud.d2Data)
@@ -434,7 +447,7 @@ export default {
 	padding: 10px 10px 0 10px;
 	border:0;
   margin-top: -10px;
-  margin-left: -10px;
+  margin-left: 10px;
   margin-bottom: -10px;
 }
 .toolbar-title {
@@ -445,7 +458,7 @@ export default {
   padding: 0;
 }
 .toolbar-button {
-  margin-right: -15px;
+  margin-left: 15px;
 }
 .d2-crud-pagination {
     float: right;

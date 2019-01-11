@@ -55,7 +55,7 @@ const tablesInfo = [
         telephone: '444',
         description: 'leimeng@aisino.com',
         time: '2018-12-21',
-        person: '陈伟霆', 
+        person: '刘伟霆', 
         forbidEdit: false,
         showEditButton: true,
         forbidRemove: false,

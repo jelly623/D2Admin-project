@@ -16,7 +16,7 @@ export default {
     { path: 'organization', name: `${pre}organization`, component: () => import('@/pages/demo/organization'), meta: { meta, title: '机构管理' } },
     { path: 'test', name: `${pre}organization`, component: () => import('@/pages/demo/test'), meta: { meta, title: '测试' } },
     { path: 'page4', name: `${pre}page4`, component: () => import('@/pages/demo/page4'), meta: { meta, title: '页面 4' } },
-    { path: 'page5', name: `${pre}page5`, component: () => import('@/pages/demo/page5'), meta: { meta, title: '页面 5' } },
+    { path: 'scheduling', name: `${pre}scheduling`, component: () => import('@/pages/demo/scheduling'), meta: { meta, title: '定时调度' } },
 
   ])('demo-')
 }
