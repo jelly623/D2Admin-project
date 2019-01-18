@@ -5,26 +5,35 @@
     <div class="toolbar">
       <el-col :span="24" class="toolbar-title">黑名单列表</el-col>
       <hr/>
-       <el-form :inline="true" :model="filters" label-width="70px" size="mini" style="margin:0 -10px 0 -5px">                        
-        <el-form-item label="客户名称">
-          <el-input v-model="formData.name" style="display: inline-block;"></el-input>   
-        </el-form-item>   
-        <el-form-item label="电话号码">
-          <el-input v-model="formData.telephone" ></el-input>
-        </el-form-item>
-        <el-form-item label="提交时间">
-          <el-input v-model="formData.time"></el-input>
-        </el-form-item>
-        <el-form-item label="提交人">
-        <el-input v-model="formData.person"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" class="toolbar-button" @click="search(formData)">查询</el-button>
-        </el-form-item>
-        <!-- <el-form-item>
-        <el-button type="primary" class="toolbar-button" >重置</el-button>
-        </el-form-item> -->
+       <el-form  :model="formData" label-position="left" label-width="70px" size="mini" >                        
+          <el-row :gutter="20">                    
+              <el-col :span="5">
+                <el-form-item label="客户名称">               
+                  <el-input v-model="formData.name" ></el-input>               
+                </el-form-item>
+              </el-col>                             
+              <el-col :span="5">
+                <el-form-item label="电话号码">                
+                  <el-input v-model="formData.telephone" ></el-input>                
+                </el-form-item>
+              </el-col>                        
+              <el-col :span="5">
+                <el-form-item label="提交时间">               
+                  <el-input v-model="formData.time"></el-input>
+                </el-form-item>
+              </el-col>                        
+              <el-col :span="5">
+                <el-form-item label="提交人">               
+                  <el-input v-model="formData.person"></el-input>                
+                </el-form-item>
+              </el-col>
+              <!-- <el-form-item> -->
+                <el-button type="primary" class="toolbar-button" @click="search(formData)">查询</el-button>
+                <el-button type="primary" class="toolbar-button" @click="reset">重置</el-button>
+              <!-- </el-form-item> -->
+        </el-row>
       </el-form>
+
     </div>   
  </template>
  <template  class="tableContainer"> 
@@ -100,8 +109,69 @@ export default {
           width: '150',
           sortable: true
         }              
+      ],     
+      list: [
+          {
+          id: 1,
+          name: '王小虎',
+          telephone: '111',
+          description: 'wangxiaohu@aisino.com',
+          time: '2018-12-21',
+          person: '陈伟霆', 
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true                     
+          },
+          {
+          id: 2,
+          name: '吴伟',
+          telephone: '222',
+          description: 'wuwei@aisino.com',
+          time: '2018-12-21',
+          person: '陈伟霆', 
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true      
+          },
+          {
+          id: 3,
+          name: '王艳',
+          telephone: '333',
+          description: 'wangyan@aisino.com',
+          time: '2018-12-21',
+          person: '陈伟霆',  
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true     
+          },
+          {
+          id: 4,  
+          name: '雷梦',
+          telephone: '444',
+          description: 'leimeng@aisino.com',
+          time: '2018-12-21',
+          person: '陈伟霆', 
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true      
+          },
+          {
+          id: 5,  
+          name: '雷梦',
+          telephone: '444',
+          description: 'leimeng@aisino.com',
+          time: '2018-12-21',
+          person: '刘伟霆', 
+          forbidEdit: false,
+          showEditButton: true,
+          forbidRemove: false,
+          showRemoveButton: true      
+          }          
       ],
-      tablesInfo: [],     
       pagination: {
         pageSize: 4,
         layout: 'total, prev, pager, next, jumper',
@@ -253,7 +323,7 @@ export default {
   methods: {
     // 查询
     search({ name, telephone, time, person }) {
-      this.realList = this.tablesInfo.filter(item => {
+      this.realList = this.list.filter(item => {
         let matchName = true; // 姓名 筛选
         let matchTelephone = true; // 性别 筛选
         let matchTime = true; // 号码 筛选
@@ -290,6 +360,17 @@ export default {
       });
       console.log(this.realList)
     },
+    //重置
+    reset() {
+      this.formData = {
+        name: '',
+        telephone: '',
+        time: '',
+        person: ''
+      };
+      this.realList = this.list
+    },
+
     // 新增
     handleRowAdd (row, done) {
       this.formOptions.saveLoading = true
@@ -373,7 +454,7 @@ export default {
 	padding: 10px 10px 0 10px;
 	border:0;
   margin-top: -10px;
-  margin-left: -10px;
+  margin-left: -7px;
   margin-bottom: -10px;
 }
 .toolbar-title {
@@ -384,7 +465,8 @@ export default {
   padding: 0;
 }
 .toolbar-button {
-  margin-right: -15px;
+  margin-left: 5px;
+  
 }
 .d2-crud-pagination {
     float: right;

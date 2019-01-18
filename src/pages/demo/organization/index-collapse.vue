@@ -1,10 +1,26 @@
 <template>
+<div>
     <d2-container>
-      <div style="height: 520px; margin: -16px;">
-      <SplitPane :min-percent='20' :default-percent='30' split="vertical">
-        <template slot="paneL"><div style="margin: 10px;">
-          <!--树形控件-->
-            <!-- <el-aside class="asideContainer" width="300px"  style="padding: 15px;"> -->
+        <el-container>
+            <el-header class="header">
+            <button @click="collapseStatus">               
+                <i class="fa fa-reorder" aria-hidden="true"></i>
+            </button>                
+            <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                <el-radio-button :label="false">展开</el-radio-button>
+                <el-radio-button :label="true">收起</el-radio-button>
+            </el-radio-group> -->
+            </el-header>
+        <el-container>
+            <el-aside
+                width="auto"
+                @mouseenter.native="collapseOpen"
+                @mouseleave.native="collapseClose">
+            </el-aside>
+            <div class="left">
+                <el-menu class="el-menu-vertical"  :collapse="isCollapse" style="float:left;">
+                <!--树形控件-->
+                <!-- <el-aside class="asideContainer" width="300px"  style="padding: 15px;"> -->
                 <el-tree class="tree"
                     ref="eventCategoryTree"
                     :data="eventCategoryTree"
@@ -15,80 +31,70 @@
                     :render-content="renderContent"
                     :expand-on-click-node="false">
                 </el-tree>
-            <!-- </el-aside>           -->
-          </div></template>
-        <template slot="paneR">
-          <!-- <SplitPane split="horizontal"> -->
-          <div style="margin: 10px;">
-            <!-- 表单 -->
-            <!-- <el-main class="form">  -->
-              <div>
-                <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="small" >
-                  <el-row :gutter="20">
-                    <el-col :span="11">
-                      <el-form-item 
-                        label="机构编号"
-                        :rules="[
-                                { required: true, message: '机构编号不能为空'},
-                                { type: 'number', message: '机构编号必须为数字值'}
-                              ]" >
-                              <el-input v-model="mainForm.id"></el-input>
-                            </el-form-item>
-                    </el-col>
-                    <el-col :span="11">
-                      <el-form-item 
-                        label="机构名称"
-                        :rules="[
-                                  { required: true, message: '机构名称不能为空'}
-                                ]">
-                        <el-input v-model="mainForm.name"></el-input>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="11">
-                      <el-form-item label="机构类型" >              
-                        <el-select v-model="mainForm.type" placeholder="请选择机构类型">
-                          <el-option label="公司" value="company"></el-option>
-                          <el-option label="部门" value="department"></el-option>
+                </el-menu>            
+            </div>
+        <div class="right">
+            <el-form ref="mainForm" :model="mainForm" label-position="right" label-width="80px" size="small" >
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item 
+                    label="机构编号"
+                    :rules="[
+                            { required: true, message: '机构编号不能为空'},
+                            { type: 'number', message: '机构编号必须为数字值'}
+                            ]" >
+                            <el-input v-model="mainForm.id"></el-input>
+                        </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                    <el-form-item 
+                    label="机构名称"
+                    :rules="[
+                                { required: true, message: '机构名称不能为空'}
+                            ]">
+                    <el-input v-model="mainForm.name"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="机构类型" >              
+                    <el-select v-model="mainForm.type" placeholder="请选择机构类型">
+                        <el-option label="公司" value="company"></el-option>
+                        <el-option label="部门" value="department"></el-option>
+                    </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="11">
+                    <el-form-item label="客服中心">
+                        <el-select v-model="mainForm.callcenter" placeholder="请选择类型">
+                        <el-option label="是" value="yes"></el-option>
+                        <el-option label="否" value="no"></el-option>
                         </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="11">
-                      <el-form-item label="客服中心">
-                          <el-select v-model="mainForm.callcenter" placeholder="请选择类型">
-                            <el-option label="是" value="yes"></el-option>
-                            <el-option label="否" value="no"></el-option>
-                          </el-select>
-                      </el-form-item> 
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="11">
-                      <el-form-item label="出局号">
-                        <el-input v-model="mainForm.code"></el-input>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-row :gutter="20">
-                    <el-col :span="11">
-                      <el-form-item label="机构描述">
-                        <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
-                      </el-form-item>
-                    </el-col>
-                  </el-row>
-                  <el-form-item>
-                      <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-                      <el-button @click="resetForm('ruleForm')">取消</el-button>
-                  </el-form-item>        
-                </el-form>
-              </div>
-            <!-- </el-main>             -->
-          </div>
-          <!-- </SplitPane> -->
-        </template>
-      </SplitPane>   
-        <!--新增事件节点分类弹窗-->
+                    </el-form-item> 
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="出局号">
+                    <el-input v-model="mainForm.code"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                <el-col :span="11">
+                    <el-form-item label="机构描述">
+                    <el-input :span="26" type="textarea" v-model="mainForm.desc"></el-input>
+                    </el-form-item>
+                </el-col>
+                </el-row>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
+                    <el-button @click="resetForm('ruleForm')">取消</el-button>
+                </el-form-item>        
+            </el-form>            
+        </div>
+          <!--新增事件节点分类弹窗-->
         <el-dialog
             title="新增事件分类"
             width="25%"
@@ -107,10 +113,12 @@
             <el-button @click="addEventFormCancleBtn('addEventForm')">取 消</el-button>
             <el-button type="primary" @click="addEventFormSubmitBtn('addEventForm')">确 定</el-button>
             </span>
-        </el-dialog>               
-        </div>        
-    </d2-container>
+        </el-dialog>
 
+        </el-container>
+        </el-container>
+    </d2-container>
+</div>
 </template>
 <script>
 import TreeRender from './tree_render.vue';
@@ -119,6 +127,8 @@ import  { organizationListInfoData } from '@/api/demo/organization/organizationL
   export default {
     data() {
         return {
+            collapseBtnClick: false,
+            isCollapse: false,
             mainForm: {
               id: '',
               name: '',
@@ -425,13 +435,33 @@ import  { organizationListInfoData } from '@/api/demo/organization/organizationL
   };
 </script>
 <style>
-/* .tree {
-  background-color:#f1f5fa;
-  
-} */
-.form {
-  /* border: 1px solid #a1c7e9; */
-  height: 480px;
-  background-color: white;
+  .left {
+     float: left;
+
+  }
+  .right {
+     float: left;
+     padding-top: 20px;
+     padding-left: 10px;
+     margin-left: 10px;
+     border: 1px solid #a1c7e9;
+     width: 90%;
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 300px;   
+    /* min-height: 400px; */
+  } 
+ 
+  .tree {
+      padding-left:30px;
+      height:450px;
+      border: 1px solid #a1c7e9;
+      background-color:white;
+  }
+.header {
+    /* background-color: red; */
+    padding-top: 10px;
+    padding-left: 25px;
+    margin:-25px;
 }
 </style>

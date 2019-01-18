@@ -2,17 +2,7 @@ import Mock from 'mockjs'
 
 const  eventCategoryTree = 
             [
-                {
-                    id: 0,
-                    label: ' ',
-                    type:' ',                
-                    callcenter:' ',
-                    code:' ',
-                    desc:' ',
-                    addAble: false,  //根据后台给的是否可添加节点，也可以根据当前的node节点自行判断
-                    delAble: false,  //根据后台给的是否可删除节点，也可以根据当前的node节点自行判断
-                    parentId: '',             
-                    children: [{                
+                {    
                         id: 1,
                         icon:'el-icon-success',
                         label: '航天信息股份有限公司',
@@ -113,8 +103,7 @@ const  eventCategoryTree =
                         delAble: true,
                         parentId: '1',
                         },]
-                    }],
-                }]
+                    }]
 
 Mock.mock('/api/demo/organization', 'get', ({ url, type, body }) => {
     const bodyObj = JSON.parse(body)

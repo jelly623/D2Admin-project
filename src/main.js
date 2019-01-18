@@ -8,6 +8,10 @@ import VueResource from 'vue-resource'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
+// [ 可选插件组件 ] 区域划分组件
+import SplitPane from 'vue-splitpane'
+// [ 可选插件组件 ]D2-Crud
 import D2Crud from '@d2-projects/d2-crud'
 // store
 import store from '@/store/index'
@@ -33,6 +37,7 @@ Vue.use(d2Admin)
 Vue.use(VueResource)
 Vue.use(ElementUI)
 Vue.use(D2Crud)
+Vue.component('SplitPane', SplitPane)
 
 new Vue({
   router,
