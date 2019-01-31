@@ -41,6 +41,18 @@ export default {
         name: 'd2',
         preview: 'image/theme/d2/preview@2x.png'
       },
+      // 定制 night 主题
+      {
+        title: 'Dark Night',
+        name: 'night',
+        preview: 'image/theme/night/preview@2x.png'
+      },
+      {
+        title: 'blue',
+        name: 'blue',
+        backgroundImage: 'image/theme/blue/bg.jpg',
+        preview: 'image/theme/blue/preview@2x.png'
+      },
       {
         title: '紫罗兰',
         name: 'violet',

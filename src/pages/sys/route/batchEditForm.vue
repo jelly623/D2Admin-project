@@ -19,7 +19,7 @@ import "codemirror/addon/lint/lint.css";
 import "codemirror/addon/fold/foldgutter.css";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/liquibyte.css";
-require("script-loader!");
+// require("script-loader!jsonlint");
 import "codemirror/mode/javascript/javascript";
 import "codemirror/addon/lint/lint";
 import "codemirror/addon/lint/json-lint";

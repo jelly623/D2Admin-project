@@ -6,19 +6,13 @@
       <d2-icon-svg
         class="page__logo"
         name="d2-admin"/>
-   </d2-page-cover>
+    </d2-page-cover>
   </d2-container>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-// import D2HelpBtn from './components/d2-help-btn'
-// import D2Badge from './components/d2-badge'
 export default {
-  // components: {
-  //   D2HelpBtn,
-  //   D2Badge
-  // },
   computed: {
     ...mapState('d2admin/releases', [
       'version'
